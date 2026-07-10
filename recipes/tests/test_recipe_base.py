@@ -8,6 +8,24 @@ class RecipeTestBase(TestCase):
         
         return super().setUp()
 
+    def make_recipe_no_defaults(self):
+        recipe = Recipe(
+            category = self.make_category(name='Test category'),
+            author = self.make_author(username='Tester'),
+            title = 'Recipe title',
+            description = 'Recipe description', 
+            slug = 'slug_recipe',
+            preparation_time = 50,
+            preparation_time_unit = 'minutes',
+            servings = 10,
+            servings_unit = 'peaples',
+            preparation_steps = 'Recipe steps',
+            cover = 'cover'
+        )
+        recipe.full_clean()
+        recipe.save()
+        return recipe
+
     def make_category(self, name='Category'):
         return Category.objects.create(name=name)
 
@@ -42,6 +60,7 @@ class RecipeTestBase(TestCase):
         preparation_steps = 'Recipe steps',
         preparation_steps_is_html = False,
         is_published = True,
+        cover = 'cover'
 
     ):
         if category_data is None:
@@ -63,4 +82,5 @@ class RecipeTestBase(TestCase):
             preparation_steps = preparation_steps,
             preparation_steps_is_html = preparation_steps_is_html,
             is_published = is_published,
+            cover = cover,
             )

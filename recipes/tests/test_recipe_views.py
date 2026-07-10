@@ -32,7 +32,13 @@ class RecipeViewsTest(RecipeTestBase):
         response = self.client.get(reverse('recipes:home'))
         content = response.content.decode('utf-8')
         self.assertIn('Recipe title', content)
-        ...
+
+    def test_recipe_home_templates_no_loads_not_published_recipes(self):
+        title = 'Test no published'
+        self.make_recipe(title=title, is_published=False)        
+        response = self.client.get(reverse('recipes:home'))
+        content = response.content.decode('utf-8')
+        self.assertNotIn(title, content)
 
     #category
     def test_view_category_function_is_correct(self):
@@ -41,6 +47,13 @@ class RecipeViewsTest(RecipeTestBase):
 
     def test_recipe_category_view_return_status_code_404_ok(self):
         response = self.client.get(reverse('recipes:category', kwargs={'category_id':1000}))
+        self.assertEquals(response.status_code, 404)
+
+    def test_recipe_category_is_not_published_and_return_status_code_404(self):
+        recipe = self.make_recipe(is_published=False)
+        response = self.client.get(
+            reverse('recipes:category', kwargs={'category_id': recipe.category.id})
+        )
         self.assertEquals(response.status_code, 404)
 
     def test_recipe_category_view_loads_correct_template(self):
@@ -72,10 +85,12 @@ class RecipeViewsTest(RecipeTestBase):
         response = self.client.get(reverse('recipes:recipe', kwargs={'id':1000}))
         self.assertEquals(response.status_code, 404)
 
-    def test_recipe_view_loads_correct_template(self):
-        self.make_recipe()
-        response = self.client.get(reverse('recipes:category', kwargs={'id':1}))
-        self.assertTemplateUsed(response, 'recipes/pages/recipe-view.html')
+    def test_detail_recipe_is_not_published_return_404(self):
+        recipe = self.make_recipe(is_published=False)
+        response = self.client.get(
+            reverse('recipes:recipe', kwargs={'id': recipe.id})
+        )
+        self.assertEqual(response.status_code, 404)
 
     def test_recipe__template_show_no_recipes_found_if_no_recipe(self):
         response = self.client.get(reverse('recipes:recipe', kwargs={'id':1000}))
