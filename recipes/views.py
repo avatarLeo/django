@@ -43,3 +43,18 @@ def recipe(request, id):
         "recipe":recipe,
         "is_detail_page": True,
     })
+
+def search(request):    
+    search_term = request.GET.get('search', '').strip()
+    if not search_term:
+        raise Http404('Receita não encontrada')
+    
+    
+    return render(
+        request,
+        'recipes/pages/search.html',
+        context={
+            'page_title': f'Buscando por {search_term}',
+            'search_term': search_term
+        }
+    )
