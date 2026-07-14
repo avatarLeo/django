@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 import math
 def make_paginetion_range(
     page_range,
@@ -30,4 +31,19 @@ def make_paginetion_range(
         "first_page_out_of_range": current_page > middle_range,
         "last_page_out_of_range": stop_range < total_pages
     }
+
+def make_pagination(request, recipe, number_of_pages=10, qty_pages=4):
+    try:
+        current_page = int(request.GET.get('page', 1))
+    except ValueError:
+        current_page = 1
+    paginator = Paginator(recipe, number_of_pages)
+    page_obj = paginator.get_page(int(current_page))
+
+    pagination_range = make_paginetion_range(
+        paginator.page_range,
+        qty_pages,
+        current_page
+    )
+    return pagination_range, page_obj
 

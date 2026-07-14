@@ -288,3 +288,77 @@ h6 {
 .center {
   text-align: center;
 }
+
+/* pagination */
+
+.pagination-content {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 1rem 0.5rem;
+  align-items: center;
+  justify-content: center;
+
+}
+.pagination .page-item {
+  font-size: 2rem;
+  background-color: var(--color-gray-3);
+  padding: 0.5rem 1rem;
+}
+.pagination a:hover {
+  color: var(--color-gray-2);
+  text-decoration: underline;
+  background-color: var(--color-primary-dark-hover);
+}
+
+
+.pagination .page-link{
+  text-decoration: none;
+  background-color: var(--color-primary-dark);
+  color: var(--color-white);
+}
+
+.pagination .current-page{
+  background-color: var(--color-gray-7);
+}
+
+/* message */
+.message{
+  padding: 1rem;
+  border-radius: 4px;
+  border: 1px solid var(--color-dark-text);
+  background: var(--color-gray-2);
+  color: var(--color-dark-text);
+  margin-bottom: 1rem;
+}
+
+.message-debug{
+  border: 1px solid var(--color-debug-dark);
+  background: var(--color-debug-light);
+  color: var(--color-debug-dark);
+}
+.message-success{
+  border: 1px solid var(--color-success-dark);
+  background: var(--color-success-light);
+  color: var(--color-success-dark);
+}
+.message-warning{
+  border: 1px solid var(--color-warning-dark);
+  background: var(--color-warning-light);
+  color: var(--color-warning-dark);
+}
+.message-error{
+  border: 1px solid var(--color-error-dark);
+  background: var(--color-error-light);
+  color: var(--color-error-dark);
+}
+.message-info{
+  border: 1px solid var(--color-info-dark);
+  background: var(--color-info-light);
+  color: var(--color-info-dark);
+}
+
+@media(max-width: 600px){
+  .main-content-list{
+    grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
+  }
+}
